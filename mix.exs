@@ -1,7 +1,7 @@
 defmodule Fine.MixProject do
   use Mix.Project
 
-  @version "0.1.0-dev"
+  @version "0.1.0"
   @description "C++ library enabling more ergonomic NIFs, tailored to Elixir"
   @github_url "https://github.com/elixir-nx/fine"
 
@@ -45,7 +45,7 @@ defmodule Fine.MixProject do
     [
       licenses: ["Apache-2.0"],
       links: %{"GitHub" => @github_url},
-      files: ~w(include mix.exs README.md LICENSE CHANGELOG.md)
+      files: ~w(include lib mix.exs README.md LICENSE CHANGELOG.md)
     ]
   end
 end
