@@ -37,7 +37,9 @@ defmodule Fine.MixProject do
 
   defp docs() do
     [
-      main: "Fine"
+      main: "Fine",
+      source_url: @github_url,
+      source_ref: "v#{@version}"
     ]
   end
 
