@@ -81,6 +81,19 @@ end
 
 Otherwise, you can inline the dir to `deps/fine/include`.
 
+> #### Symbol visibility {: .info}
+>
+> When using GCC and Clang it is recommended to compile with
+> `-fvisibility=hidden`. This flag hides symbols in your NIF shared
+> library, which prevents from symbol clashes with other NIF libraries.
+> This is required when multiple NIF libraries use Fine, otherwise
+> loading the libraries fails.
+>
+> ```shell
+> # GCC/Clang (Makefile)
+> CPPFLAGS += -fvisibility=hidden
+> ```
+
 ## Usage
 
 A minimal NIF adding two numbers can be implemented like so:
