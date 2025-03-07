@@ -1,9 +1,13 @@
 defmodule Example do
-  @on_load :load_nif
-  @mix_build_dir Mix.Project.build_path()
+  @on_load :__on_load__
 
-  defp load_nif do
-    :erlang.load_nif(~c"#{@mix_build_dir}/example_nif", 0)
+  def __on_load__ do
+    path = :filename.join(:code.priv_dir(:example), ~c"libexample")
+
+    case :erlang.load_nif(path, 0) do
+      :ok -> :ok
+      {:error, reason} -> raise "failed to load NIF library, reason: #{inspect(reason)}"
+    end
   end
 
   @doc """

@@ -7,13 +7,7 @@ defmodule Example.MixProject do
       version: "0.1.0",
       elixir: "~> 1.15",
       compilers: [:elixir_make] ++ Mix.compilers(),
-      make_env: fn ->
-        %{
-          "MIX_BUILD_DIR" => Mix.Project.build_path(),
-          "ERL_INCLUDE_DIR" => "#{:code.root_dir()}/usr/include",
-          "FINE_INCLUDE_DIR" => Fine.include_dir()
-        }
-      end,
+      make_env: fn -> %{"FINE_INCLUDE_DIR" => Fine.include_dir()} end,
       deps: deps()
     ]
   end

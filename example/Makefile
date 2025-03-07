@@ -1,15 +1,29 @@
-SRC := c_src/example_nif.cpp
-TARGET := $(MIX_BUILD_DIR)/example_nif.so
+PRIV_DIR := $(MIX_APP_PATH)/priv
+NIF_PATH := $(PRIV_DIR)/libexample.so
+C_SRC := $(shell pwd)/c_src
 
-CPPFLAGS := -std=c++17 -fvisibility=hidden -fPIC -I$(ERL_INCLUDE_DIR) -I$(FINE_INCLUDE_DIR)
+CPPFLAGS := -shared -fPIC -std=c++17 -Wall -Wextra
+CPPFLAGS += -I$(ERTS_INCLUDE_DIR) -I$(FINE_INCLUDE_DIR)
 
-ifeq ($(shell uname -s),Darwin)
-    LDFLAGS := -dynamiclib -undefined dynamic_lookup
+ifdef DEBUG
+	CPPFLAGS += -g
 else
-    LDFLAGS := -shared
+	CPPFLAGS += -O3
 endif
 
-all: $(TARGET)
+ifndef TARGET_ABI
+  TARGET_ABI := $(shell uname -s | tr '[:upper:]' '[:lower:]')
+endif
 
-$(TARGET): $(SRC)
-	$(CXX) $(CPPFLAGS) $(LDFLAGS) -o $@ $^
+ifeq ($(TARGET_ABI),darwin)
+	CPPFLAGS += -undefined dynamic_lookup -flat_namespace
+endif
+
+SOURCES := $(wildcard $(C_SRC)/*.cpp)
+
+all: $(NIF_PATH)
+	@ echo > /dev/null # Dummy command to avoid the default output "Nothing to be done"
+
+$(NIF_PATH): $(SOURCES)
+	@ mkdir -p $(PRIV_DIR)
+	$(CXX) $(CPPFLAGS) $(SOURCES) -o $(NIF_PATH)
