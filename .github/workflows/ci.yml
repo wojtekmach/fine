@@ -66,4 +66,3 @@ jobs:
           mix deps.unlock --check-unused
           mix test --warnings-as-errors
         working-directory: example
-        if: ${{ !startsWith(matrix.os.id, 'windows') }}
