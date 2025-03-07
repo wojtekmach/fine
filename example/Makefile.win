@@ -9,6 +9,5 @@ SOURCES=$(C_SRC)\*.cpp
 all: $(NIF_PATH)
 
 $(NIF_PATH): $(SOURCES)
-	@ if not exist "$(PRIV_DIR)"
-	mkdir "$(PRIV_DIR)"
+	@ if not exist "$(PRIV_DIR)" mkdir "$(PRIV_DIR)"
 	cl $(CPPFLAGS) $(SOURCES) /Fe"$(NIF_PATH)"
